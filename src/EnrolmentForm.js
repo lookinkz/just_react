@@ -1,19 +1,20 @@
 import "./App.css";
 import { useState } from "react";
 
-function EnrolmentForm() {
+function EnrolmentForm(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [welcomeMessage, setWelcomeMessage] = useState("");
-
+  // control the submit button
   const handleSubmit = (event) => {
-    setWelcomeMessage(`Welcome ${firstName} ${lastName}`);
+    setWelcomeMessage(`Welcome, ${firstName} ${lastName}`);
+    props.setUpdatedSeats(props.currentSeats - 1);
     event.preventDefault();
   };
   return (
     <div>
       <form className="enrolForm" onSubmit={handleSubmit}>
-        <h1>Student Details</h1>
+        <h1>{props.chosenProgram} Student Details</h1>
         <label>First name:</label>
         <input
           type="text"
