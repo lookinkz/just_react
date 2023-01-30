@@ -17,6 +17,17 @@
   font-size: inherit;
   }
 
+  .enrolForm input[type=email] {
+    margin :20px;
+    padding:20px;
+    border:0;
+    box-shadow:0 0 25px 4px rgba(0,0,0,0.06);
+    border: 2px solid #eee;
+    width: 250px;
+    font-family: inherit;
+    font-size: inherit;
+    }
+
 .enrolForm input[type=submit]
   {
   background: #4691A4;
@@ -55,3 +66,7 @@
   font-size: inherit;
   margin-left: 10px;
   }
+
+ul {
+  list-style-type: none;
+}

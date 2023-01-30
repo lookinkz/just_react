@@ -1,41 +1,58 @@
 import React from "react";
-import "./App.css";
 import EnrolmentForm from "./EnrolmentForm";
 import { useState } from "react";
 
-function App() {
+import "./App.css";
+
+const App = () => {
   const [program, setProgram] = useState("UG");
-  const [seats, setSeats] = useState(100);
+  const [ugSeats, setUgSeats] = useState(60);
+  const [pgSeats, setPgSeats] = useState(40);
+
   const handleChange = (event) => {
     setProgram(event.target.value);
+    setPgSeats(pgSeats);
+    setUgSeats(ugSeats);
   };
+
   const setUpdatedSeats = (updatedSeats) => {
-    setSeats(updatedSeats);
+    if (program === "UG") {
+      setUgSeats(updatedSeats);
+    } else {
+      setPgSeats(updatedSeats);
+    }
   };
+
   return (
     <div className="App">
       <div className="programs">
-        <label>Remaining Seats - {seats}</label>
-        <br />
-        <br />
-        <label>Choose Program:</label>
-        <select
-          className="appDropDowns"
-          onChange={handleChange}
-          value={program}
-        >
-          <option value="UG">Undergraduate</option>
-          <option value="PG">Postgraduate</option>
-        </select>
+        <h3 className="title">Student Enrolment Form</h3>
+        <ul className="ulEnrol">
+          <li className="parentLabels" onChange={handleChange}>
+            <input type="radio" value="UG" name="programGroup" defaultChecked />
+            Undegraduate
+            <input
+              type="radio"
+              className="radioSel"
+              value="PG"
+              name="programGroup"
+            />
+            Postgraduate
+          </li>
+          <li>
+            <label className="parentLabels">
+              Remaining {program} Seats - {program === "UG" ? ugSeats : pgSeats}
+            </label>
+          </li>
+        </ul>
       </div>
-
       <EnrolmentForm
         chosenProgram={program}
         setUpdatedSeats={setUpdatedSeats}
-        currentSeats={seats}
+        currentSeats={program === "UG" ? ugSeats : pgSeats}
       />
     </div>
   );
-}
+};
 
 export default App;
