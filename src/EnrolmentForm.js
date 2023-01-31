@@ -1,17 +1,33 @@
 import React, { useState } from "react";
 import "./App.css";
+import { MdEdit, MdDelete } from "react-icons/md";
 
 const EnrolmentForm = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [welcomeMessage, setWelcomeMessage] = useState("");
+
   const handleClick = (event) => {
     handleInputReset("", "", "");
-    setWelcomeMessage(
-      `${firstName} ${lastName} enrolled. Email sent to - ${email}`
-    );
+
     props.setUpdatedSeats(props.currentSeats - 1);
+    // student ID generation
+    const randomKey = Math.floor(1000 + Math.random() * 9000);
+    let id = randomKey;
+    props.setStudentDetails({
+      key: id,
+      fname: firstName,
+      lname: lastName,
+      program: props.chosenProgram,
+      email: email,
+      edit: <MdEdit className="actionIcon" />,
+      delete: (
+        <MdDelete
+          className="actionIcon"
+          onClick={() => props.handleItemSelection("delete", id)}
+        />
+      ),
+    });
     event.preventDefault();
   };
   // change of input value set method
@@ -74,11 +90,6 @@ const EnrolmentForm = (props) => {
                 value="Enrol"
                 onClick={handleClick}
               />
-            </li>
-            <li>
-              <label id="studentMsg" className="message">
-                {welcomeMessage}
-              </label>
             </li>
           </ul>
         </form>

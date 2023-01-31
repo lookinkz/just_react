@@ -1,5 +1,6 @@
 import React from "react";
 import EnrolmentForm from "./EnrolmentForm";
+import EnrolList from "./EnrolList";
 import { useState } from "react";
 
 import "./App.css";
@@ -8,6 +9,14 @@ const App = () => {
   const [program, setProgram] = useState("UG");
   const [ugSeats, setUgSeats] = useState(60);
   const [pgSeats, setPgSeats] = useState(40);
+  const [studentDetails, setStudentDetails] = useState({});
+  const [action, setAction] = useState();
+  const [selItemId, setSelItemId] = useState();
+
+  const handleItemSelection = (action, id) => {
+    setAction(action);
+    setSelItemId(id);
+  };
 
   const handleChange = (event) => {
     setProgram(event.target.value);
@@ -21,6 +30,11 @@ const App = () => {
     } else {
       setPgSeats(updatedSeats);
     }
+  };
+
+  const restoreSeats = (pgm) => {
+    pgm === "UG" ? setUgSeats(ugSeats + 1) : setPgSeats(pgSeats + 1);
+    setAction("");
   };
 
   return (
@@ -50,6 +64,15 @@ const App = () => {
         chosenProgram={program}
         setUpdatedSeats={setUpdatedSeats}
         currentSeats={program === "UG" ? ugSeats : pgSeats}
+        setStudentDetails={setStudentDetails}
+        handleItemSelection={handleItemSelection}
+      />
+      <EnrolList
+        studentDetails={studentDetails}
+        setStudentDetails={setStudentDetails}
+        selectedItemId={selItemId}
+        action={action}
+        restoreSeats={restoreSeats}
       />
     </div>
   );
