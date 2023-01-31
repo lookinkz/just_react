@@ -98,3 +98,19 @@
   color: rgb(77, 133, 141);
   cursor: pointer;
 }
+
+.btn {
+  border: 1px solid;
+  background: rgb(50,58,59);
+  font-size: 18px;
+  color:white;
+  margin-top: 20px;
+  padding: 10px 50px;
+  cursor: pointer;
+  transition: 0.4s;
+  margin-bottom: 30px;
+}
+
+#btnCancel {
+  margin-left: 20px;
+}

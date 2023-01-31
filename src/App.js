@@ -1,9 +1,8 @@
 import React from "react";
+import "./App.css";
 import EnrolmentForm from "./EnrolmentForm";
 import EnrolList from "./EnrolList";
 import { useState } from "react";
-
-import "./App.css";
 
 const App = () => {
   const [program, setProgram] = useState("UG");
@@ -12,16 +11,32 @@ const App = () => {
   const [studentDetails, setStudentDetails] = useState({});
   const [action, setAction] = useState();
   const [selItemId, setSelItemId] = useState();
+  const [isUGChecked, setIsUGChecked] = useState(true);
+  const [isRestoreSeats, setIsRestoreSeats] = useState(false);
+
+  const handleChange = (event) => {
+    setProgram(event.target.value);
+    setIsUGChecked(!isUGChecked);
+    if (isRestoreSeats) {
+      event.target.value === "UG"
+        ? setPgSeats(pgSeats + 1)
+        : setUgSeats(ugSeats + 1);
+      setIsRestoreSeats(false);
+    }
+  };
 
   const handleItemSelection = (action, id) => {
     setAction(action);
     setSelItemId(id);
   };
-
-  const handleChange = (event) => {
-    setProgram(event.target.value);
-    setPgSeats(pgSeats);
-    setUgSeats(ugSeats);
+  const restoreSeats = (pgm) => {
+    pgm === "UG" ? setUgSeats(ugSeats + 1) : setPgSeats(pgSeats + 1);
+    setAction("");
+  };
+  const setSelectedProgram = (selProgram) => {
+    selProgram === "UG" ? setIsUGChecked(true) : setIsUGChecked(false);
+    setProgram(selProgram);
+    setIsRestoreSeats(true);
   };
 
   const setUpdatedSeats = (updatedSeats) => {
@@ -32,24 +47,25 @@ const App = () => {
     }
   };
 
-  const restoreSeats = (pgm) => {
-    pgm === "UG" ? setUgSeats(ugSeats + 1) : setPgSeats(pgSeats + 1);
-    setAction("");
-  };
-
   return (
     <div className="App">
       <div className="programs">
         <h3 className="title">Student Enrolment Form</h3>
         <ul className="ulEnrol">
           <li className="parentLabels" onChange={handleChange}>
-            <input type="radio" value="UG" name="programGroup" defaultChecked />
-            Undegraduate
+            <input
+              type="radio"
+              value="UG"
+              name="programGroup"
+              checked={isUGChecked}
+            />
+            Undergraduate
             <input
               type="radio"
               className="radioSel"
               value="PG"
               name="programGroup"
+              checked={!isUGChecked}
             />
             Postgraduate
           </li>
@@ -66,6 +82,7 @@ const App = () => {
         currentSeats={program === "UG" ? ugSeats : pgSeats}
         setStudentDetails={setStudentDetails}
         handleItemSelection={handleItemSelection}
+        setSelectedProgram={setSelectedProgram}
       />
       <EnrolList
         studentDetails={studentDetails}

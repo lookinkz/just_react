@@ -6,6 +6,20 @@ const EnrolmentForm = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [btnValue, setBtnValue] = useState("Enrol");
+  const [studentID, setStudentID] = useState(0);
+
+  const handleClickCancel = (event) => {
+    handleInputReset("", "", "");
+    setBtnValue("Enrol");
+    event.preventDefault();
+  };
+
+  const handleEdit = (stId) => {
+    handleInputReset(firstName, lastName, email);
+    setStudentID(stId);
+    setBtnValue("Update");
+  };
 
   const handleClick = (event) => {
     handleInputReset("", "", "");
@@ -14,13 +28,15 @@ const EnrolmentForm = (props) => {
     // student ID generation
     const randomKey = Math.floor(1000 + Math.random() * 9000);
     let id = randomKey;
+    setStudentID(randomKey);
+    id = btnValue === "Enrol" ? randomKey : studentID;
     props.setStudentDetails({
       key: id,
       fname: firstName,
       lname: lastName,
       program: props.chosenProgram,
       email: email,
-      edit: <MdEdit className="actionIcon" />,
+      edit: <MdEdit className="actionIcon" onClick={() => handleEdit(id)} />,
       delete: (
         <MdDelete
           className="actionIcon"
@@ -28,6 +44,7 @@ const EnrolmentForm = (props) => {
         />
       ),
     });
+    setBtnValue("Enrol");
     event.preventDefault();
   };
   // change of input value set method
@@ -87,8 +104,17 @@ const EnrolmentForm = (props) => {
                 id="btnEnrol"
                 name="Enrol"
                 alt="Enrol"
-                value="Enrol"
+                value={btnValue}
                 onClick={handleClick}
+              />
+              <input
+                type="sumbit"
+                id="btnCancel"
+                name="Cancel"
+                className="btn"
+                alt="Cancel"
+                value="Cancel"
+                onClick={handleClickCancel}
               />
             </li>
           </ul>
